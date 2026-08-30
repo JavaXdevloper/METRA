@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 public interface InspectionRepository extends MongoRepository<Inspection, String> {
-    List<String> findByProductId(String productId);
+    List<Inspection> findByProductId(String productId);
 
     List<Inspection> findByUserId(String userId);
 }
