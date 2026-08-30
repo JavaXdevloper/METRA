@@ -78,9 +78,21 @@ public class InspectionService {
         decMap.put("mrp", extractedDec.getMrp());
         decMap.put("netQuantity", extractedDec.getNetQuantity());
         decMap.put("dateOfManufacture", extractedDec.getDateOfManufacture());
+        decMap.put("expiryDate", extractedDec.getExpiryDate());
         decMap.put("manufacturerName", extractedDec.getManufacturerName());
+        decMap.put("manufacturerAddress", extractedDec.getManufacturerAddress());
+        decMap.put("packerName", extractedDec.getPackerName());
+        decMap.put("importerName", extractedDec.getImporterName());
         decMap.put("countryOfOrigin", extractedDec.getCountryOfOrigin());
         decMap.put("consumerCareDetails", extractedDec.getConsumerCareDetails());
+        decMap.put("productName", extractedDec.getProductName());
+        decMap.put("batchNumber", extractedDec.getBatchNumber());
+        decMap.put("ingredients", extractedDec.getIngredients());
+        decMap.put("fssaiLicense", extractedDec.getFssaiLicense());
+        decMap.put("barcode", extractedDec.getBarcode());
+        decMap.put("unitSalePrice", extractedDec.getUnitSalePrice());
+        decMap.put("bestBefore", extractedDec.getBestBefore());
+        decMap.put("rawMaterialOrigin", extractedDec.getRawMaterialOrigin());
         inspection.setExtractedDeclarations(decMap);
 
         inspection.setViolations(violations);

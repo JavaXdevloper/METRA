@@ -165,6 +165,42 @@ function Login({ onLogin }: { onLogin: () => void }) {
 }
 function EvidenceViewer({ images }: { images: string[] }) { const [active, setActive] = useState(0); const [zoom, setZoom] = useState(false); return <><div className="evidence-viewer"><div className="evidence-main"><img src={images[active] || evidenceImage} /><button className="zoom-button" onClick={() => setZoom(true)}><ZoomIn size={16} /> View full size</button><div className="evidence-counter"><Mono>{String(active + 1).padStart(2, '0')} / {String(images.length || 1).padStart(2, '0')}</Mono></div></div><div className="evidence-thumbs">{images.map((src, i) => <button key={src + i} className={active === i ? 'selected' : ''} onClick={() => setActive(i)}><img src={src} /></button>)}</div></div>{zoom && <div className="modal" onClick={() => setZoom(false)}><button className="modal-close"><X size={20} /></button><img src={images[active]} onClick={e => e.stopPropagation()} /></div>}</>; }
 
+function DeclarationTable({ items }: { items: Declaration[] }) {
+  if (!items || items.length === 0) return <div className="declarations"><span className="muted" style={{padding:'14px 0',display:'block',fontSize:12}}>No declarations extracted.</span></div>;
+  return (
+    <div className="declarations">
+      {items.map((d, i) => (
+        <div key={d.label + i} className="declaration-row">
+          <div className="decl-label"><Mono>{d.label}</Mono></div>
+          <div className={`decl-value ${d.status === 'missing' ? 'missing' : ''}`}>{d.value || '—'}</div>
+          <div className={`decl-status ${d.status}`}>
+            <span />
+            <span>{d.status === 'detected' ? 'Detected' : 'Missing'}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function ViolationCard({ violation }: { violation: Violation }) {
+  return (
+    <div className={`violation-card ${violation.severity || 'high'}`}>
+      <div className="violation-icon"><TriangleAlert size={18} /></div>
+      <div className="violation-body">
+        <div className="violation-title">
+          {violation.type || 'Violation'}
+          {violation.severity && <span>{violation.severity.toUpperCase()}</span>}
+        </div>
+        <p>{violation.description}</p>
+        {(violation.ruleReference || violation.rule) && (
+          <div className="rule-ref"><Mono>{violation.ruleReference || violation.rule}</Mono></div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function ScanResult({ details = false }: { details?: boolean }) { 
   const [, params] = useRoute('/inspection/:id/:result?');
   const id = params?.id || '';
