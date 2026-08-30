@@ -74,7 +74,7 @@ public class ReportService {
 
         document.open();
 
-        Font titleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, BaseColor.BLUE);
+        Font titleFont = FontFactory.getFont(FontFactory.HELVETICA, 18, Font.BOLD, BaseColor.BLUE);
         Paragraph title = new Paragraph("Legal Metrology Compliance Report", titleFont);
         title.setAlignment(Element.ALIGN_CENTER);
         document.add(title);
@@ -88,7 +88,7 @@ public class ReportService {
         document.add(Chunk.NEWLINE);
 
         Paragraph tableTitle = new Paragraph("Extracted Declarations",
-                FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14));
+                FontFactory.getFont(FontFactory.HELVETICA, 14, Font.BOLD));
         document.add(tableTitle);
         document.add(Chunk.NEWLINE);
 
@@ -106,7 +106,7 @@ public class ReportService {
         document.add(table);
         document.add(Chunk.NEWLINE);
 
-        Paragraph violationTitle = new Paragraph("Violations", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14));
+        Paragraph violationTitle = new Paragraph("Violations", FontFactory.getFont(FontFactory.HELVETICA, 14, Font.BOLD));
         document.add(violationTitle);
         document.add(Chunk.NEWLINE);
 

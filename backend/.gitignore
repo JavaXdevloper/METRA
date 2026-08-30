@@ -1,3 +1,3 @@
 .env
 target/
-*/applications.properties
+src/main/resources/application.properties
