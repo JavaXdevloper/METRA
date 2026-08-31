@@ -1,15 +1,15 @@
-﻿export const API_BASE = '/api';
+export const API_BASE = '/api';
 
-export function getAuthHeader() {
+export function getAuthHeader(): Record<string, string> {
   const token = localStorage.getItem('sih_token');
-  return token ? { 'Authorization': "Bearer " + token } : {};
+  return token ? { Authorization: "Bearer " + token } : {};
 }
 
 export async function fetchApi(endpoint: string, options: RequestInit = {}) {
-  const headers = {
+  const headers: Record<string, string> = {
     ...getAuthHeader(),
     ...(options.body && !(options.body instanceof FormData) ? { 'Content-Type': 'application/json' } : {}),
-    ...options.headers,
+    ...(options.headers as Record<string, string> | undefined),
   };
 
   const response = await fetch(API_BASE + endpoint, {
@@ -76,5 +76,23 @@ export const inspectionsApi = {
 
 export const reportsApi = {
   getText: (id: string) => fetchApi('/reports/inspection/' + id),
-  getPdfUrl: (id: string) => API_BASE + '/inspections/' + id + '/report/pdf'
+  getPdfUrl: (id: string) => API_BASE + '/inspections/' + id + '/report/pdf',
+  downloadPdf: async (id: string) => {
+    const authHeader = getAuthHeader();
+    const response = await fetch(API_BASE + '/inspections/' + id + '/report/pdf', {
+      headers: { ...authHeader },
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to download PDF: ${response.status} ${response.statusText}`);
+    }
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `inspection_report_${id}.pdf`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
 };
